@@ -25,10 +25,11 @@ export function Nav() {
     }
   }, [open])
 
-  // Hidden below md: the app shell already owns the mobile top bar, so a
-  // fixed nav there stacked two headers on top of each other.
+  // Sticky inside the Home view's scroll container rather than fixed to the
+  // viewport: a fixed bar spanned the app sidebar on desktop and covered the
+  // shell's mobile top bar on small screens.
   return (
-    <header className="fixed inset-x-0 top-0 z-50 hidden justify-center px-4 pt-4 md:flex">
+    <header className="sticky top-0 z-40 flex justify-center px-4 pt-4">
       <motion.nav
         initial={{ y: -16, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}

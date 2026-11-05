@@ -28,9 +28,9 @@ export function Sidebar({
         className="flex items-center gap-2.5 rounded-control px-2 py-1.5 text-left"
       >
         <LogoMark />
-        <span className="leading-tight">
+        <span className="min-w-0 leading-tight">
           <span className="block text-[15px] font-semibold tracking-tight text-fg">BlockBard</span>
-          <span className="block text-[12px] text-muted">Soundtracks for Minecraft videos</span>
+          <span className="block text-[11.5px] leading-snug text-muted">Soundtracks for Minecraft videos</span>
         </span>
       </button>
 
