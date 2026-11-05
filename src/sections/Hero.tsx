@@ -12,7 +12,7 @@ const ease = [0.22, 1, 0.36, 1] as const
 export function Hero() {
   const [line1, line2] = hero.title
   return (
-    <section className="relative overflow-hidden pt-36 pb-10 sm:pt-44">
+    <section className="relative overflow-hidden pt-28 pb-10 sm:pt-44">
       <Aurora />
       <div aria-hidden className="grid-lines absolute inset-x-0 top-0 h-[720px]" />
       <div aria-hidden className="noise pointer-events-none absolute inset-0" />

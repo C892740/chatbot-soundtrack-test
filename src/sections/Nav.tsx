@@ -25,8 +25,10 @@ export function Nav() {
     }
   }, [open])
 
+  // Hidden below md: the app shell already owns the mobile top bar, so a
+  // fixed nav there stacked two headers on top of each other.
   return (
-    <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4">
+    <header className="fixed inset-x-0 top-0 z-50 hidden justify-center px-4 pt-4 md:flex">
       <motion.nav
         initial={{ y: -16, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
