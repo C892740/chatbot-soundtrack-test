@@ -29,7 +29,7 @@ export function Nav() {
   // viewport: a fixed bar spanned the app sidebar on desktop and covered the
   // shell's mobile top bar on small screens.
   return (
-    <header className="sticky top-0 z-40 flex justify-center px-4 pt-4">
+    <header className="sticky top-0 z-40 hidden justify-center px-4 pt-4 md:flex">
       <motion.nav
         initial={{ y: -16, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
