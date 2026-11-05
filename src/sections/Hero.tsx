@@ -4,7 +4,7 @@ import { ArrowRight, Sparkles } from 'lucide-react'
 import { Aurora } from '../components/Aurora'
 import { Button } from '../components/Button'
 import { Container } from '../components/Container'
-import { DashboardMock } from '../components/DashboardMock'
+import { AppMock } from '../components/AppMock'
 import { hero } from '../content'
 
 const ease = [0.22, 1, 0.36, 1] as const
@@ -88,7 +88,7 @@ export function Hero() {
             aria-hidden
             className="absolute -inset-x-10 -top-10 bottom-0 -z-10 rounded-[40px] bg-[radial-gradient(60%_50%_at_50%_0%,rgb(255_122_69/0.22),transparent)] blur-2xl"
           />
-          <DashboardMock />
+          <AppMock />
           <div aria-hidden className="pointer-events-none absolute inset-x-0 -bottom-px h-40 bg-gradient-to-t from-bg to-transparent" />
         </motion.div>
       </Container>

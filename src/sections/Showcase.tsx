@@ -1,8 +1,9 @@
 import { AnimatePresence, motion } from 'motion/react'
 import { useState } from 'react'
+import { BadgeCheck, ExternalLink, FileText, MessageSquareText } from 'lucide-react'
 
 import { Container } from '../components/Container'
-import { Monogram } from '../components/DashboardMock'
+import { Monogram } from '../components/AppMock'
 import { Reveal } from '../components/Reveal'
 import { SectionHeading } from '../components/SectionHeading'
 import { showcase } from '../content'
@@ -57,11 +58,11 @@ export function Showcase() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -8, scale: 0.99 }}
                   transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                  className="absolute inset-0 p-5 sm:p-7"
+                  className="absolute inset-0 overflow-y-auto p-5 sm:p-7"
                 >
-                  {active === 'inbox' && <InboxPanel />}
-                  {active === 'board' && <BoardPanel />}
-                  {active === 'report' && <ReportPanel />}
+                  {active === 'chat' && <ChatPanel />}
+                  {active === 'tracks' && <TracksPanel />}
+                  {active === 'license' && <LicensePanel />}
                 </motion.div>
               </AnimatePresence>
             </div>
@@ -72,116 +73,110 @@ export function Showcase() {
   )
 }
 
-const inbox = [
-  { who: 'MC', hue: 250, title: 'Maya requested your review on Onboarding v3', when: '2m' },
-  { who: 'DO', hue: 170, title: 'Billing webhooks moved to In review', when: '14m' },
-  { who: 'SM', hue: 20, title: 'Sofia mentioned you in Launch checklist', when: '1h' },
-  { who: 'JW', hue: 300, title: 'Weekly goals are ready for sign-off', when: '3h' },
-  { who: 'PN', hue: 120, title: 'Mobile push shipped to production', when: '5h' },
-  { who: 'LF', hue: 40, title: 'Lucas shared the Q4 roadmap draft with you', when: '1d' },
-  { who: 'MC', hue: 250, title: 'Onboarding v3 is ready for your approval', when: '2d' },
-]
-
-function InboxPanel() {
+function ChatPanel() {
+  const lines = [
+    { who: 'you', text: 'Hardcore episode 12. I die to fall damage at the end. Make it hurt (funny).', persona: null as string | null },
+    { who: 'bard', text: 'Hype persona · Hook: “Twelve episodes. Full netherite. One misplaced water bucket.” Then a 4-beat fall compilation with record-scratch SFX at 6:20.', persona: 'Hype' },
+    { who: 'bard', text: 'Chill persona · Same footage, cozy retelling: “Sometimes the mountain wins.” Lo-fi folk under the death montage, no jumpscare cut.', persona: 'Chill' },
+  ]
   return (
-    <ul className="flex h-full flex-col gap-2">
-      {inbox.map((item, i) => (
+    <ul className="flex h-full flex-col justify-center gap-3">
+      {lines.map((l, i) => (
         <motion.li
-          key={item.title}
-          initial={{ opacity: 0, x: 10 }}
+          key={i}
+          initial={{ opacity: 0, x: l.who === 'you' ? 10 : -10 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: i * 0.06 }}
-          className={cx(
-            'depth relative flex items-center gap-3 rounded-[14px] px-4 py-3',
-            i === 0 ? 'bg-white/[0.04] [--depth-edge:rgb(255_236_224/0.22)]' : '[--depth-edge:var(--color-line)]',
-          )}
+          transition={{ delay: i * 0.15 }}
+          className={cx('flex gap-3', l.who === 'you' ? 'flex-row-reverse' : '')}
         >
-          <Monogram initials={item.who} hue={item.hue} className="size-7 text-[11px]" />
-          <span className="min-w-0 flex-1 truncate text-[13px] sm:text-[14px]">{item.title}</span>
-          <span className="text-[12px] tabular-nums text-faint">{item.when}</span>
+          <Monogram initials={l.who === 'you' ? 'YOU' : 'BB'} hue={l.who === 'you' ? 210 : 120} className="size-7 shrink-0 text-[10px]" />
+          <div
+            className={cx(
+              'max-w-[80%] rounded-[14px] px-4 py-3 text-[13px] leading-relaxed sm:text-[14px]',
+              l.who === 'you' ? 'bg-accent/20' : 'depth relative bg-white/[0.04]',
+            )}
+          >
+            {l.persona && (
+              <span className="mb-1.5 inline-flex items-center gap-1 rounded-[7px] bg-accent/15 px-2 py-0.5 text-[11px] font-medium text-accent">
+                <MessageSquareText className="size-3" /> {l.persona}
+              </span>
+            )}
+            <p className="text-fg/90">{l.text}</p>
+          </div>
         </motion.li>
       ))}
     </ul>
   )
 }
 
-const columns = [
-  { title: 'Planned', cards: ['Pricing page refresh', 'Design tokens audit'] },
-  { title: 'In progress', cards: ['Onboarding v3', 'Search relevance', 'Invite flow'] },
-  { title: 'Review', cards: ['Billing webhooks'] },
-  { title: 'Done', cards: ['Mobile push', 'SSO for Business'] },
+const tracks = [
+  { title: 'Morning Village Folk', mood: 'calm build montage', source: 'Pixabay', hue: 120, note: 'No attribution · dispute with license link' },
+  { title: 'Deep Cave Pulse', mood: 'tense cave scene', source: 'Epidemic', hue: 250, note: 'Needs safelisted channel · auto-released' },
+  { title: 'Drop: Wither Fight', mood: 'boss-fight drop', source: 'Epidemic', hue: 300, note: 'Active subscription required' },
+  { title: 'Record Scratch SFX', mood: 'fail compilation', source: 'Pixabay', hue: 40, note: 'No attribution · keep download proof' },
 ]
 
-function BoardPanel() {
+function TracksPanel() {
   return (
-    <div className="grid h-full grid-cols-2 gap-3 sm:grid-cols-4">
-      {columns.map((col, ci) => (
-        <div key={col.title} className="flex min-w-0 flex-col gap-2">
-          <div className="flex items-center justify-between px-1">
-            <span className="text-[12px] font-medium text-muted">{col.title}</span>
-            <span className="text-[11px] tabular-nums text-faint">{col.cards.length}</span>
+    <ul className="grid h-full content-center gap-3 sm:grid-cols-2">
+      {tracks.map((t, i) => (
+        <motion.li
+          key={t.title}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: i * 0.1 }}
+          className="depth relative rounded-[14px] bg-white/[0.03] p-4"
+        >
+          <div className="flex items-center gap-2">
+            <span className="size-2.5 rounded-[4px]" style={{ background: `hsl(${t.hue} 70% 60%)` }} />
+            <p className="min-w-0 flex-1 truncate text-[13px] font-semibold sm:text-[14px]">{t.title}</p>
           </div>
-          {col.cards.map((card, i) => (
-            <motion.div
-              key={card}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: ci * 0.05 + i * 0.06 }}
-              className="depth relative rounded-[12px] bg-white/[0.03] p-3"
+          <p className="mt-1.5 text-[12px] text-muted">“{t.mood}”</p>
+          <div className="mt-3 flex items-center justify-between">
+            <span
+              className={cx(
+                'rounded-[7px] px-2 py-1 text-[11px] font-medium',
+                t.source === 'Pixabay' ? 'bg-accent-2/15 text-accent-2' : 'bg-accent/15 text-accent',
+              )}
             >
-              <p className="text-[12px] leading-snug sm:text-[13px]">{card}</p>
-              <div className="mt-3 flex items-center justify-between">
-                <span className="h-1.5 w-10 rounded-[3px] bg-accent/50" />
-                <Monogram initials={['MC', 'DO', 'SM', 'JW'][(ci + i) % 4]} hue={[250, 170, 20, 300][(ci + i) % 4]} className="size-5 text-[9px]" />
-              </div>
-            </motion.div>
-          ))}
-        </div>
+              {t.source}
+            </span>
+            <span className="inline-flex items-center gap-1 text-[11px] text-faint">
+              Open license <ExternalLink className="size-3" />
+            </span>
+          </div>
+        </motion.li>
       ))}
-    </div>
+    </ul>
   )
 }
 
-function ReportPanel() {
-  const series = [
-    { label: 'Velocity', values: [40, 48, 44, 56, 62, 58, 70], color: '#ff7a45' },
-    { label: 'Cycle time', values: [70, 64, 66, 58, 52, 50, 44], color: '#ffb547' },
-  ]
-  const w = 600
-  const h = 220
+const receipts = [
+  { track: 'Morning Village Folk', line: 'Pixabay Content License · commercial use granted, irrevocable', flag: 'If claimed: dispute with track URL + license summary. Second appeal risks a strike — check for the shield icon first.' },
+  { track: 'Deep Cave Pulse', line: 'Epidemic Creator license · monetization allowed, attribution expected', flag: 'Channel must be safelisted before publishing or Epidemic monetizes the video.' },
+  { track: 'Drop: Wither Fight', line: 'Epidemic Creator license · published-during-subscription stays cleared', flag: 'New videos after cancellation get claimed. No client work, ads or compilations on this tier.' },
+]
+
+function LicensePanel() {
   return (
-    <div className="flex h-full flex-col">
-      <div className="flex items-center gap-5">
-        {series.map((s) => (
-          <span key={s.label} className="flex items-center gap-2 text-[12px] text-muted">
-            <span className="round size-2" style={{ background: s.color }} />
-            {s.label}
-          </span>
-        ))}
-        <span className="ml-auto text-[12px] text-faint">Last 7 weeks</span>
-      </div>
-      <svg viewBox={`0 0 ${w} ${h}`} className="mt-4 h-full w-full flex-1" preserveAspectRatio="none">
-        {[0.25, 0.5, 0.75].map((f) => (
-          <line key={f} x1="0" x2={w} y1={h * f} y2={h * f} stroke="rgba(255,255,255,0.06)" />
-        ))}
-        {series.map((s) => {
-          const step = w / (s.values.length - 1)
-          const d = s.values.map((v, i) => `${i === 0 ? 'M' : 'L'}${i * step},${h - (v / 100) * h}`).join(' ')
-          return (
-            <motion.path
-              key={s.label}
-              d={d}
-              fill="none"
-              stroke={s.color}
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 1.2, ease: 'easeInOut' }}
-            />
-          )
-        })}
-      </svg>
-    </div>
+    <ul className="flex h-full flex-col justify-center gap-3">
+      {receipts.map((r, i) => (
+        <motion.li
+          key={r.track}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: i * 0.12 }}
+          className="depth relative rounded-[14px] bg-white/[0.03] p-4"
+        >
+          <p className="flex items-center gap-2 text-[13px] font-semibold sm:text-[14px]">
+            <FileText className="size-4 shrink-0 text-accent-2" /> {r.track}
+          </p>
+          <p className="mt-1.5 flex items-start gap-1.5 text-[12px] leading-relaxed text-muted sm:text-[13px]">
+            <BadgeCheck className="mt-0.5 size-3.5 shrink-0 text-accent-2" /> {r.line}
+          </p>
+          <p className="mt-1 pl-5 text-[12px] leading-relaxed text-faint">{r.flag}</p>
+        </motion.li>
+      ))}
+    </ul>
   )
 }

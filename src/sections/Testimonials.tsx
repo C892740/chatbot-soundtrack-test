@@ -1,5 +1,5 @@
 import { Container } from '../components/Container'
-import { Monogram } from '../components/DashboardMock'
+import { Monogram } from '../components/AppMock'
 import { Reveal } from '../components/Reveal'
 import { SectionHeading } from '../components/SectionHeading'
 import { testimonials } from '../content'

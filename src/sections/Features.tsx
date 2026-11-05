@@ -3,7 +3,7 @@ import { MousePointer2 } from 'lucide-react'
 import type { ReactElement } from 'react'
 
 import { Container } from '../components/Container'
-import { Monogram } from '../components/DashboardMock'
+import { Monogram } from '../components/AppMock'
 import { Reveal } from '../components/Reveal'
 import { SectionHeading } from '../components/SectionHeading'
 import { features } from '../content'
